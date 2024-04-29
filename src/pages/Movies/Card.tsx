@@ -10,11 +10,11 @@ const Card: FC<IMovie> = (props) => {
 
   return (
     <div className={style.card}>
-      <LoadImg
-        className={style.card__img}
-        src={poster?.url || image}
-        alt={name}
-      />
+      {poster?.url ? (
+        <LoadImg className={style.card__img} src={poster.url} alt={name} />
+      ) : (
+        <img className={style.card__img} src={image} alt={name} />
+      )}
       <div className={style.card__info}>
         <Link className={style.card__name} to={`movie/${id}`}>
           {name}

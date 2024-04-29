@@ -57,11 +57,15 @@ const Movie: FC = () => {
           </div>
         </div>
       </div>
-      <LoadImg
-        className={style.movie__img}
-        src={data.poster?.url || image}
-        alt={data.name}
-      />
+      {data.poster?.url ? (
+        <LoadImg
+          className={style.movie__img}
+          src={data.poster.url}
+          alt={data.name}
+        />
+      ) : (
+        <img className={style.movie__img} src={image} alt={data.name} />
+      )}
     </div>
   );
 };
