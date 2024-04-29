@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import Movies from "./pages/Movies/Movies";
+import style from "./App.module.css";
+import Movie from "./pages/Movie/Movie";
 
-function App() {
+const Main: FC = () => {
+  const [page, setPage] = useState(1);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <main className={style.main}>
+      <Routes>
+        <Route path="/" element={<Movies page={page} setPage={setPage} />} />
+        <Route path="/movie/:id" element={<Movie />} />
+      </Routes>
+    </main>
+  );
+};
+
+const App: FC = () => {
+  return (
+    <div className={style.app}>
+      <header className={style.header}>Header</header>
+      <Main />
+      <footer className={style.footer}>Footer</footer>
     </div>
   );
-}
+};
 
 export default App;
