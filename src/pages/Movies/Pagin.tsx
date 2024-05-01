@@ -1,4 +1,11 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useLayoutEffect,
+  useState,
+} from "react";
 import style from "./Movies.module.css";
 
 interface IProps {
@@ -10,6 +17,8 @@ interface IProps {
 const Pagin: FC<IProps> = ({ page, pages, setPage }) => {
   const [value, setValue] = useState<number>(page);
 
+  useLayoutEffect(() => setValue(page), [page]);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = +e.target.value.replace(/\D/g, "");
     const activepage = value > pages ? pages : value;
@@ -18,6 +27,7 @@ const Pagin: FC<IProps> = ({ page, pages, setPage }) => {
 
   const handleSubmit = () => {
     if (!value) {
+      setValue(page);
       return;
     }
 

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useLayoutEffect, useRef, useState } from "react";
 import style from "./LoadImg.module.css";
 
 interface IProps {
@@ -8,26 +8,31 @@ interface IProps {
 }
 
 const LoadImg: FC<IProps> = ({ src, alt, className }) => {
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
 
-  useEffect(() => {
-    if (!ref.current) {
+  useLayoutEffect(() => {
+    const imgElem = ref.current;
+
+    if (!imgElem) {
       return;
     }
 
-    setSuccess(false);
-
-    ref.current.onload = () => {
-      setSuccess(true);
-    };
+    imgElem.onload = () => setSuccess(true);
   }, []);
 
-  if (!success) {
-    return <div className={style.load}>Загрузка картинки</div>;
-  }
-
-  return <img className={className} ref={ref} src={src} alt={alt} />;
+  return (
+    <>
+      <img
+        ref={ref}
+        style={{ display: success ? "block" : "none" }}
+        className={className}
+        src={src}
+        alt={alt}
+      />
+      {!success && <div className={style.load}>Загрузка картинки...</div>}
+    </>
+  );
 };
 
 export default LoadImg;
